@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shape Assessment</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type='text/javascript'>
+  function tallyGroup(groupIndex) {
+    groupScore = 0;
+    for (i=0; i < 5; i++) {
+      if(document.getElementById("trait" + groupIndex + i).checked) {
+        groupScore++;
+      }
+    }
+    document.getElementById("tally" + groupIndex).innerHTML = groupScore;
+
+    topThree();
+  }
+
+  function tallyGroupy(groupIndex) {
+    groupScore = 0;
+    for (i = 0; i < 5; i++) {
+      if(document.getElementById("trait" + groupIndex + i).checked) {
+        groupScore++;
+      }
+    }
+    document.getElementById("tally" + groupIndex).innerHTML = groupScore;
+
+    var tallyString = document.getElementById("tally" + groupIndex).innerHTML;
+    document.getElementById("test").innerHTML = parseInt(tallyString)  + 1;
+    var list = [];
+    list.push("blah");
+  }
+
+  function topThree() {
+    var tallyArray = [];
+    for (i = 0; i < 15; i++) {
+      var tallyString = document.getElementById("tally" + i).innerHTML;
+      var gift = {index:i, tally:parseInt(tallyString)};
+      tallyArray.push(gift);
+    }
+    tallyArray.sort(function(a, b){return a.tally - b.tally});
+
+    gift1.innerHTML = document.getElementById("giftName" + tallyArray.pop().index).innerHTML;
+    gift2.innerHTML = document.getElementById("giftName" + tallyArray.pop().index).innerHTML;
+    gift3.innerHTML = document.getElementById("giftName" + tallyArray.pop().index).innerHTML;
+
+  }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+  <h2>WELCOME TO ACC 301!</h2>
+  <div>These assessment tools are designed to help you in the process of self discovery. They are relatively simple but can have a huge impact on your life. They are meant to help you clarify how God has uniquely wired you, but that is only the starting point. Remember they are only as good as the application of your SHAPE into your life and ministry.</div>
+
+  <h2>WHAT IS S.H.A.P.E?</h2>
+  <b>S</b>piritual Gifts
+  <p style="margin-left: 20px">A special capacity for service given by God to every believer for the benefit of His Church, the Body of Christ</p>
+  <b>H</b>eart
+  <p style="margin-left: 20px">A God-given desire that invigorates and motivates you to meaningful ministry involvement for God’s kingdom.</p>
+  <b>A</b>bilities
+  <p style="margin-left: 20px">Talents and skills given by God to every human being for His glory (whether people love Him or not) that demonstrate His common grace to everyone.</p>
+  <b>P</b>ersonal Style
+  <p style="margin-left: 20px">Your natural and energized approach to life and relationships.</p>
+  <b>E</b>xperiences
+  <p style="margin-left: 20px">Events and situations in your life that God has used to mold you into who you are.</p>
+
+  <h2>SPIRITUAL GIFTS INVENTORY</h2>
+  Read the traits for each spiritual gift and check every phrase that you think fits you.
+
+  <form class="form-horizontal">
+    <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>GIFTS</th>
+        <th>TRAITS OR DESCRIPTIONS</th>
+        <th>TOTALS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="giftName0">Administration</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait00" onclick="tallyGroupy(0)">Delegates responsibilities</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait01" onclick="tallyGroup(0)">Organizes effectively</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait02" onclick="tallyGroup(0)">Enjoys completing projects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait03" onclick="tallyGroup(0)">Enjoys planning and administrative skills</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait04" onclick="tallyGroup(0)">Successfully sets and achieves goals and objectives</label></div>
+        </td>
+        <td ><b id="tally0">0</b> of 5 <span id="test"> </span></td>
+      </tr>
+      <tr>
+        <td id="giftName1">Craftsmanship</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait10" onclick="tallyGroup(1)">Takes pleasure in drawing/designing objects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait11" onclick="tallyGroup(1)">Finds joy in painting or creating handcrafted objects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait12" onclick="tallyGroup(1)">Experiences fulfillment in completing projects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait13" onclick="tallyGroup(1)">Enjoys time spent in creating beauty</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait14" onclick="tallyGroup(1)">Finds satisfaction in repairing and maintaining things</label></div>
+        </td>
+        <td><b id="tally1">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName2">Evangelism</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait20" onclick="tallyGroup(2)">Enjoys talking to others about faith in Jesus Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait21" onclick="tallyGroup(2)">Challenged by the opportunity of talking to nonbelievers about the Christian life</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait22" onclick="tallyGroup(2)">Seeks out nonbelievers in a continual manner in order to share with them about Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait23" onclick="tallyGroup(2)">Takes satisfaction from sharing the Gospel message with others and persuading them to respond</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait24" onclick="tallyGroup(2)">Finds a certain pleasure in making new friends and sharing the love of Christ with them</label></div>
+        </td>
+        <td><b id="tally2">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName3">Exhortation/Wisdom</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait30" onclick="tallyGroup(3)">Speaks words of encouragement to those who are troubled discouraged, or unsure of themselves</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait31" onclick="tallyGroup(3)">Enjoys helping others resolve difficult or complicated problems</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait32" onclick="tallyGroup(3)">Accurately applies truth to daily life in spite of crises or conflict</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait33" onclick="tallyGroup(3)">A good counselor of others feeling perplexed or guilty</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait34" onclick="tallyGroup(3)">Regularly helps others through difficulty by offering Biblical solutions which bring comfort or direction</label></div>
+        </td>
+        <td><b id="tally3">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName4">Giving</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait40" onclick="tallyGroup('4')">Conscientiously manages money well in order to be able to give liberally to the Lord's work</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait41" onclick="tallyGroup('4')">Consistently contributes to the Lord's work out of gratitude for what He had done</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait42" onclick="tallyGroup('4')">Feels deeply moved by urgent financial needs in the work of God's kingdom</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait43" onclick="tallyGroup('4')">Is content with maintaining a lower standard of living in order to financially benefit God's work</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait44" onclick="tallyGroup('4')">Finds a certain pleasure in using financial resources to help others</label></div>
+        </td>
+        <td><b id="tally4">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName5">Hospitality</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait50" onclick="tallyGroup('5')">Readily provides food/shelter graciously and willingly to people in need</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait51" onclick="tallyGroup('5')">Enjoys having guests in the home and sharing freely with those in need</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait52" onclick="tallyGroup('5')">Making visitors and guests feel comfortable and a part of things</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait53" onclick="tallyGroup('5')">Willingly opens home to guests or strangers even when it is not convenient</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait54" onclick="tallyGroup('5')">Sees his/her home as a resource from God to share with others</label></div>
+        </td>
+        <td><b id="tally5">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName6">Intercession</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait60" onclick="tallyGroup('6')">Prays faithfully for the needs of others without prodding</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait61" onclick="tallyGroup('6')">Prays for others when could be doing other things</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait62" onclick="tallyGroup('6')">Feels secure in the knowledge that prayers continually work miracles in own life and the lives of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait63" onclick="tallyGroup('6')">Knows that praying for others will bring tangible results</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait64" onclick="tallyGroup('6')">Regards prayer as a favorite spiritual exercise</label></div>
+        </td>
+        <td><b id="tally6">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName7">Knowledge</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait70" onclick="tallyGroup('7')">Frequently discovers new truths</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait71" onclick="tallyGroup('7')">Has the confidence that insights will bring changes in the attitude and convictions of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait72" onclick="tallyGroup('7')">Acquires and masters new facts and principles which aid others in their growth and stability</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait73" onclick="tallyGroup('7')">Enjoys reading and studying to learn more about Biblical truth</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait74" onclick="tallyGroup('7')">Distinguishes key Biblical truths and facts that benefit self and others</label></div>
+        </td>
+        <td><b id="tally7">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName8">Leadership</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait80" onclick="tallyGroup('8')">Enjoys persuading other people to accomplish preset goals and objectives</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait81" onclick="tallyGroup('8')">Shows success in leading other people toward accomplishing specific tasks</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait82" onclick="tallyGroup('8')">Others follow example</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait83" onclick="tallyGroup('8')">Leads small or large groups of people in decision-making processes</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait84" onclick="tallyGroup('8')">Positively motivates others to accomplish a task</label></div>
+        </td>
+        <td><b id="tally8">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName9">Mercy</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait90" onclick="tallyGroup('9')">Works joyfully with people who are ignored by the majority of those around them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait91" onclick="tallyGroup('9')">Talks cheerfully and compassionately with the elderly and shut-ins</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait92" onclick="tallyGroup('9')">Enjoys working with those in jails and prisons</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait93" onclick="tallyGroup('9')">Joyfully works with others who can do little if anything in response</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait94" onclick="tallyGroup('9')">Enjoys doing things to comfort people during sickness or times of trouble</label></div>
+        </td>
+        <td><b id="tally9">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName10">Music</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait100" onclick="tallyGroup('10')">Joyfully sings praises to God either alone or with other people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait101" onclick="tallyGroup('10')">Gives others pleasure by playing a musical instrument effectively</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait102" onclick="tallyGroup('10')">Finds much pleasure in the routine practice of singing hymns and other Gospel selections</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait103" onclick="tallyGroup('10')">Knows that singing has been a spiritual encouragement to others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait104" onclick="tallyGroup('10')">Finds pleasure in playing a musical instrument alone or with a group of people</label></div>
+        </td>
+        <td><b id="tally10">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName11">Serving</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait110" onclick="tallyGroup('11')">Enjoys being called on to do special jobs</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait111" onclick="tallyGroup('11')">Enjoys routine work at church that would seemingly bore other people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait112" onclick="tallyGroup('11')">Experiences satisfaction in doing menial tasks for the glory of God</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait113" onclick="tallyGroup('11')">Is content to take orders rather than give them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait114" onclick="tallyGroup('11')">Gladly responds when others express a need for help.</label></div>
+        </td>
+        <td><b id="tally11">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName12">Shepherding</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait120" onclick="tallyGroup('12')">Takes responsibility to care and nurture the whole person in their walk with God</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait121" onclick="tallyGroup('12')">Provides guidance and oversight to a group of God’s people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait122" onclick="tallyGroup('12')">Models with their life what it means to be a fully devoted follower of Jesus</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait123" onclick="tallyGroup('12')">Establishes trust and confidence through long-term relationships</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait124" onclick="tallyGroup('12')">Leads and protects those within their span of care</label></div>
+        </td>
+        <td><b id="tally12">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName13">Teaching</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait130" onclick="tallyGroup('13')">Enjoys helping other people learn Biblical facts and principles which aid in the building up of their lives</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait131" onclick="tallyGroup('13')">Finds joy in sharing with children or adults knowledge about learning and applying God's word</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait132" onclick="tallyGroup('13')">Sees the faith of others' strengthened by teaching about Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait133" onclick="tallyGroup('13')">Enjoys presenting and discussing Biblical truths with others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait134" onclick="tallyGroup('13')">Freely and effectively shares the love of Christ with children and/or adults in an effective and meaningful manner</label></div>
+        </td>
+        <td><b id="tally13">0</b> of 5</td>
+      </tr>
+      <tr>
+        <td id="giftName14">Writing</td>
+        <td>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait140" onclick="tallyGroup('14')">Enjoys formulating thoughts and ideas into effective written form</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait141" onclick="tallyGroup('14')">Feels secure in the fact that words written will be of benefit to those who read them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait142" onclick="tallyGroup('14')">Composes or arranges articles in an efficient meaningful style</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait143" onclick="tallyGroup('14')">Finds much pleasure in composing and writing paragraphs and stories for the edification of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="trait144" onclick="tallyGroup('14')">Feels confident that literary skill will aid others and that they will be built up and informed because of it</label></div>
+        </td>
+        <td><b id="tally14">0</b> of 5</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h5 style="text-align:center;"><i>Please complete the above before proceeding!</i></h5>
+
+  <div class="well">
+    <h4 style="text-align:center;">Your top three gifts from the Spiritual Gifts Inventory</h4>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>1. <span id="gift1"></span></h4></div>
+      <div class="col-sm-4"><h4>2. <span id="gift2"></span></h4></div>
+      <div class="col-sm-4"><h4>3. <span id="gift3"></span></h4></div>
+    </div>
+  </div>
+
+  <div class="well">
+    <h2>HEART PASSION ASSESSMENT</h2>
+    <div class="form-group">
+      <label for="passion1">You receive a phone call. The person says, “I have some good news and some bad news.” The bad news is that you have just been fired from your job. The good news is that I want to give you a new job and it will be literally the job of your dreams. Describe this job and it is yours.” What would you say?</label>
+      <textarea class="form-control" rows="5" id="passion1"></textarea>
+      <label for="passion2">What is it in life that really “turns your crank”, “floats your boat” i.e. something that you could stay up late talking about?</label>
+      <textarea class="form-control" rows="5" id="passion2"></textarea>
+      <label for="passion3">Describe one of your most fulfilling and enjoyable achievements. What did you do? What encouragement did you get from others? How did you feel while doing it? (Remember, this is a fulfilling and enjoyable achievement. You might have won the Nobel Peace Prize but hated the process and will never do it again.)</label>
+      <textarea class="form-control" rows="5" id="passion3"></textarea>
+      <label for="passion4">Think of a famous person or a person that you know well. Write there name down and what one of there passions are. (Example: Billy Graham—Reaching people for Christ)</label>
+      <textarea class="form-control" rows="5" id="passion4"></textarea>
+      <label for="passion5">What do you think some of your friends would say about you?</label>
+      <textarea class="form-control" rows="5" id="passion5"></textarea>
+    </div>
+    <p>God had a purpose in giving you your inborn interests. In fact, your emotional heartbeat reveals a very important key to understanding God’s design and intention for your life. These heartbeats are described as passions in three different areas----- Roles, People and Causes.</p>
+  </div>
+
+  <div class="well">
+    <h2><del>HEART PASSION FOR A ROLE</del></h2>
+  </div>
+
+  <div class="well">
+    <h2>HEART PASSION FOR SPECIFIC PEOPLE</h2>
+    <h4><i>WHO DO YOU LIKE TO HELP?</i></h4>
+    <p>Select the people on whom you feel can have the greatest impact.</p>
+
+    <div class="form-group">
+      <label for="people1">Select up to three:</label>
+      <select class="form-control" id="people1">
+        <option></option>
+        <option>Infants/Babies</option>
+        <option>Couples</option>
+        <option>Young Marrieds</option>
+        <option>Jr. High Students</option>
+        <option>Preschool Children</option>
+        <option>Singles</option>
+        <option>Elementary Children</option>
+        <option>Toddlers</option>
+        <option>College Students</option>
+        <option>Sr. High Students</option>
+        <option>Older Adults (60+)</option>
+        <option>Women</option>
+        <option>Single Parents</option>
+        <option>Men</option>
+        <option>Families</option>
+        <option>Widows</option>
+        <option>Young Adults (Post-college - Early career)</option>
+        <option>Other</option>
+      </select>
+      <select class="form-control" id="people2">
+        <option></option>
+        <option>Infants/Babies</option>
+        <option>Couples</option>
+        <option>Young Marrieds</option>
+        <option>Jr. High Students</option>
+        <option>Preschool Children</option>
+        <option>Singles</option>
+        <option>Elementary Children</option>
+        <option>Toddlers</option>
+        <option>College Students</option>
+        <option>Sr. High Students</option>
+        <option>Older Adults (60+)</option>
+        <option>Women</option>
+        <option>Single Parents</option>
+        <option>Men</option>
+        <option>Families</option>
+        <option>Widows</option>
+        <option>Young Adults (Post-college - Early career)</option>
+        <option>Other</option>
+      </select>
+      <select class="form-control" id="people3">
+        <option></option>
+        <option>Infants/Babies</option>
+        <option>Couples</option>
+        <option>Young Marrieds</option>
+        <option>Jr. High Students</option>
+        <option>Preschool Children</option>
+        <option>Singles</option>
+        <option>Elementary Children</option>
+        <option>Toddlers</option>
+        <option>College Students</option>
+        <option>Sr. High Students</option>
+        <option>Older Adults (60+)</option>
+        <option>Women</option>
+        <option>Single Parents</option>
+        <option>Men</option>
+        <option>Families</option>
+        <option>Widows</option>
+        <option>Young Adults (Post-college - Early career)</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="well">
+    <h2>HEART PASSION FOR A CAUSE</h2>
+    <h4><i>WHAT DO YOU GET EXCITED ABOUT?</i></h4>
+    <p>Select what cause(s) get the adrenaline flowing.</p>
+    <label for="cause1">Select up to three:</label>
+    <select class="form-control" id="cause1">
+      <option></option>
+      <option>At Risk Children</option>
+      <option>Relief Efforts</option>
+      <option>Compulsive Behavior Recovery</option>
+      <option>Homelessness</option>
+      <option>Financial Management</option>
+      <option>Health and/or Fitness</option>
+      <option>Evangelism</option>
+      <option>Illness Support</option>
+      <option>Fellowship</option>
+      <option>Abuse/Violence</option>
+      <option>Blindness</option>
+      <option>Breast Cancer</option>
+      <option>Cancer</option>
+      <option>Business</option>
+      <option>Career Decisions</option>
+      <option>Deafness</option>
+      <option>Disabilities</option>
+      <option>Education</option>
+      <option>Environment</option>
+      <option>Grief Recovery</option>
+      <option>Law & Justice</option>
+      <option>Mediation</option>
+      <option>Mobilizing Volunteers</option>
+      <option>Music or Art</option>
+      <option>Parenting</option>
+      <option>Prayer</option>
+      <option>Race</option>
+      <option>Worship</option>
+      <option>Families/Marriage</option>
+      <option>Divorce Recovery</option>
+      <option>Science and/or Technology</option>
+      <option>World Missions</option>
+      <option>Urban Missions</option>
+      <option>Drug and Alcohol Recovery</option>
+      <option>Athletics</option>
+      <option>Ethics</option>
+      <option>Sexuality and/or Gender Issues</option>
+      <option>Other</option>
+    </select>
+    <select class="form-control" id="cause2">
+      <option></option>
+      <option>At Risk Children</option>
+      <option>Relief Efforts</option>
+      <option>Compulsive Behavior Recovery</option>
+      <option>Homelessness</option>
+      <option>Financial Management</option>
+      <option>Health and/or Fitness</option>
+      <option>Evangelism</option>
+      <option>Illness Support</option>
+      <option>Fellowship</option>
+      <option>Abuse/Violence</option>
+      <option>Blindness</option>
+      <option>Breast Cancer</option>
+      <option>Cancer</option>
+      <option>Business</option>
+      <option>Career Decisions</option>
+      <option>Deafness</option>
+      <option>Disabilities</option>
+      <option>Education</option>
+      <option>Environment</option>
+      <option>Grief Recovery</option>
+      <option>Law & Justice</option>
+      <option>Mediation</option>
+      <option>Mobilizing Volunteers</option>
+      <option>Music or Art</option>
+      <option>Parenting</option>
+      <option>Prayer</option>
+      <option>Race</option>
+      <option>Worship</option>
+      <option>Families/Marriage</option>
+      <option>Divorce Recovery</option>
+      <option>Science and/or Technology</option>
+      <option>World Missions</option>
+      <option>Urban Missions</option>
+      <option>Drug and Alcohol Recovery</option>
+      <option>Athletics</option>
+      <option>Ethics</option>
+      <option>Sexuality and/or Gender Issues</option>
+      <option>Other</option>
+    </select>
+    <select class="form-control" id="cause3">
+      <option></option>
+      <option>At Risk Children</option>
+      <option>Relief Efforts</option>
+      <option>Compulsive Behavior Recovery</option>
+      <option>Homelessness</option>
+      <option>Financial Management</option>
+      <option>Health and/or Fitness</option>
+      <option>Evangelism</option>
+      <option>Illness Support</option>
+      <option>Fellowship</option>
+      <option>Abuse/Violence</option>
+      <option>Blindness</option>
+      <option>Breast Cancer</option>
+      <option>Cancer</option>
+      <option>Business</option>
+      <option>Career Decisions</option>
+      <option>Deafness</option>
+      <option>Disabilities</option>
+      <option>Education</option>
+      <option>Environment</option>
+      <option>Grief Recovery</option>
+      <option>Law & Justice</option>
+      <option>Mediation</option>
+      <option>Mobilizing Volunteers</option>
+      <option>Music or Art</option>
+      <option>Parenting</option>
+      <option>Prayer</option>
+      <option>Race</option>
+      <option>Worship</option>
+      <option>Families/Marriage</option>
+      <option>Divorce Recovery</option>
+      <option>Science and/or Technology</option>
+      <option>World Missions</option>
+      <option>Urban Missions</option>
+      <option>Drug and Alcohol Recovery</option>
+      <option>Athletics</option>
+      <option>Ethics</option>
+      <option>Sexuality and/or Gender Issues</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  </form>
+  </div>
+</body>
+</html>
