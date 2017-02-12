@@ -8,37 +8,140 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type='text/javascript'>
-  function tallyGroup(groupIndex) {
+
+  $(document).ready(function() {
+    $('#contact_form').bootstrapValidator({
+        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            first_name: {
+                validators: {
+                        stringLength: {
+                        min: 2,
+                    },
+                        notEmpty: {
+                        message: 'Please supply your first name'
+                    }
+                }
+            },
+             last_name: {
+                validators: {
+                     stringLength: {
+                        min: 2,
+                    },
+                    notEmpty: {
+                        message: 'Please supply your last name'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your email address'
+                    },
+                    emailAddress: {
+                        message: 'Please supply a valid email address'
+                    }
+                }
+            },
+            phone: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your phone number'
+                    },
+                    phone: {
+                        country: 'US',
+                        message: 'Please supply a vaild phone number with area code'
+                    }
+                }
+            },
+            address: {
+                validators: {
+                     stringLength: {
+                        min: 8,
+                    },
+                    notEmpty: {
+                        message: 'Please supply your street address'
+                    }
+                }
+            },
+            city: {
+                validators: {
+                     stringLength: {
+                        min: 4,
+                    },
+                    notEmpty: {
+                        message: 'Please supply your city'
+                    }
+                }
+            },
+            state: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select your state'
+                    }
+                }
+            },
+            zip: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your zip code'
+                    },
+                    zipCode: {
+                        country: 'US',
+                        message: 'Please supply a vaild zip code'
+                    }
+                }
+            }
+            }
+        })
+        .on('success.form.bv', function(e) {
+            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                $('#contact_form').data('bootstrapValidator').resetForm();
+
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            // Use Ajax to submit form data
+            $.post($form.attr('action'), $form.serialize(), function(result) {
+                console.log(result);
+            }, 'json');
+        });
+  });
+
+  function tallySGI(groupIndex) {
+    tallyGroup("sgi", groupIndex, 5);
+    topThreeSGI();
+  }
+
+  function tallyPSA(groupIndex) {
+    tallyGroup("psa", groupIndex, 14);
+  }
+
+  function tallyGroup(groupName, groupIndex, groupSize) {
     groupScore = 0;
-    for (i=0; i < 5; i++) {
-      if(document.getElementById("trait" + groupIndex + i).checked) {
+    for (i=0; i < groupSize; i++) {
+      if(document.getElementById(groupName + groupIndex + i).checked) {
         groupScore++;
       }
     }
-    document.getElementById("tally" + groupIndex).innerHTML = groupScore;
-
-    topThree();
+    document.getElementById(groupName + "tally" + groupIndex).innerHTML = groupScore;
   }
 
-  function tallyGroupy(groupIndex) {
-    groupScore = 0;
-    for (i = 0; i < 5; i++) {
-      if(document.getElementById("trait" + groupIndex + i).checked) {
-        groupScore++;
-      }
-    }
-    document.getElementById("tally" + groupIndex).innerHTML = groupScore;
-
-    var tallyString = document.getElementById("tally" + groupIndex).innerHTML;
-    document.getElementById("test").innerHTML = parseInt(tallyString)  + 1;
-    var list = [];
-    list.push("blah");
-  }
-
-  function topThree() {
+  function topThreeSGI() {
     var tallyArray = [];
     for (i = 0; i < 15; i++) {
-      var tallyString = document.getElementById("tally" + i).innerHTML;
+      var tallyString = document.getElementById("sgitally" + i).innerHTML;
       var gift = {index:i, tally:parseInt(tallyString)};
       tallyArray.push(gift);
     }
@@ -72,7 +175,7 @@
   <h2>SPIRITUAL GIFTS INVENTORY</h2>
   Read the traits for each spiritual gift and check every phrase that you think fits you.
 
-  <form class="form-horizontal">
+  <form class="well form-horizontal" action=" " method="post"  id="contact_form">
     <table class="table table-bordered">
     <thead>
       <tr>
@@ -85,167 +188,167 @@
       <tr>
         <td id="giftName0">Administration</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait00" onclick="tallyGroupy(0)">Delegates responsibilities</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait01" onclick="tallyGroup(0)">Organizes effectively</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait02" onclick="tallyGroup(0)">Enjoys completing projects</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait03" onclick="tallyGroup(0)">Enjoys planning and administrative skills</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait04" onclick="tallyGroup(0)">Successfully sets and achieves goals and objectives</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi00" onclick="tallySGI(0)">Delegates responsibilities</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi01" onclick="tallySGI(0)">Organizes effectively</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi02" onclick="tallySGI(0)">Enjoys completing projects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi03" onclick="tallySGI(0)">Enjoys planning and administrative skills</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi04" onclick="tallySGI(0)">Successfully sets and achieves goals and objectives</label></div>
         </td>
-        <td ><b id="tally0">0</b> of 5 <span id="test"> </span></td>
+        <td ><b id="sgitally0">0</b> of 5 <span id="test"> </span></td>
       </tr>
       <tr>
         <td id="giftName1">Craftsmanship</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait10" onclick="tallyGroup(1)">Takes pleasure in drawing/designing objects</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait11" onclick="tallyGroup(1)">Finds joy in painting or creating handcrafted objects</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait12" onclick="tallyGroup(1)">Experiences fulfillment in completing projects</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait13" onclick="tallyGroup(1)">Enjoys time spent in creating beauty</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait14" onclick="tallyGroup(1)">Finds satisfaction in repairing and maintaining things</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi10" onclick="tallySGI(1)">Takes pleasure in drawing/designing objects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi11" onclick="tallySGI(1)">Finds joy in painting or creating handcrafted objects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi12" onclick="tallySGI(1)">Experiences fulfillment in completing projects</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi13" onclick="tallySGI(1)">Enjoys time spent in creating beauty</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi14" onclick="tallySGI(1)">Finds satisfaction in repairing and maintaining things</label></div>
         </td>
-        <td><b id="tally1">0</b> of 5</td>
+        <td><b id="sgitally1">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName2">Evangelism</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait20" onclick="tallyGroup(2)">Enjoys talking to others about faith in Jesus Christ</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait21" onclick="tallyGroup(2)">Challenged by the opportunity of talking to nonbelievers about the Christian life</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait22" onclick="tallyGroup(2)">Seeks out nonbelievers in a continual manner in order to share with them about Christ</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait23" onclick="tallyGroup(2)">Takes satisfaction from sharing the Gospel message with others and persuading them to respond</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait24" onclick="tallyGroup(2)">Finds a certain pleasure in making new friends and sharing the love of Christ with them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi20" onclick="tallySGI(2)">Enjoys talking to others about faith in Jesus Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi21" onclick="tallySGI(2)">Challenged by the opportunity of talking to nonbelievers about the Christian life</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi22" onclick="tallySGI(2)">Seeks out nonbelievers in a continual manner in order to share with them about Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi23" onclick="tallySGI(2)">Takes satisfaction from sharing the Gospel message with others and persuading them to respond</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi24" onclick="tallySGI(2)">Finds a certain pleasure in making new friends and sharing the love of Christ with them</label></div>
         </td>
-        <td><b id="tally2">0</b> of 5</td>
+        <td><b id="sgitally2">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName3">Exhortation/Wisdom</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait30" onclick="tallyGroup(3)">Speaks words of encouragement to those who are troubled discouraged, or unsure of themselves</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait31" onclick="tallyGroup(3)">Enjoys helping others resolve difficult or complicated problems</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait32" onclick="tallyGroup(3)">Accurately applies truth to daily life in spite of crises or conflict</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait33" onclick="tallyGroup(3)">A good counselor of others feeling perplexed or guilty</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait34" onclick="tallyGroup(3)">Regularly helps others through difficulty by offering Biblical solutions which bring comfort or direction</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi30" onclick="tallySGI(3)">Speaks words of encouragement to those who are troubled discouraged, or unsure of themselves</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi31" onclick="tallySGI(3)">Enjoys helping others resolve difficult or complicated problems</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi32" onclick="tallySGI(3)">Accurately applies truth to daily life in spite of crises or conflict</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi33" onclick="tallySGI(3)">A good counselor of others feeling perplexed or guilty</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi34" onclick="tallySGI(3)">Regularly helps others through difficulty by offering Biblical solutions which bring comfort or direction</label></div>
         </td>
-        <td><b id="tally3">0</b> of 5</td>
+        <td><b id="sgitally3">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName4">Giving</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait40" onclick="tallyGroup('4')">Conscientiously manages money well in order to be able to give liberally to the Lord's work</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait41" onclick="tallyGroup('4')">Consistently contributes to the Lord's work out of gratitude for what He had done</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait42" onclick="tallyGroup('4')">Feels deeply moved by urgent financial needs in the work of God's kingdom</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait43" onclick="tallyGroup('4')">Is content with maintaining a lower standard of living in order to financially benefit God's work</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait44" onclick="tallyGroup('4')">Finds a certain pleasure in using financial resources to help others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi40" onclick="tallySGI('4')">Conscientiously manages money well in order to be able to give liberally to the Lord's work</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi41" onclick="tallySGI('4')">Consistently contributes to the Lord's work out of gratitude for what He had done</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi42" onclick="tallySGI('4')">Feels deeply moved by urgent financial needs in the work of God's kingdom</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi43" onclick="tallySGI('4')">Is content with maintaining a lower standard of living in order to financially benefit God's work</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi44" onclick="tallySGI('4')">Finds a certain pleasure in using financial resources to help others</label></div>
         </td>
-        <td><b id="tally4">0</b> of 5</td>
+        <td><b id="sgitally4">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName5">Hospitality</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait50" onclick="tallyGroup('5')">Readily provides food/shelter graciously and willingly to people in need</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait51" onclick="tallyGroup('5')">Enjoys having guests in the home and sharing freely with those in need</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait52" onclick="tallyGroup('5')">Making visitors and guests feel comfortable and a part of things</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait53" onclick="tallyGroup('5')">Willingly opens home to guests or strangers even when it is not convenient</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait54" onclick="tallyGroup('5')">Sees his/her home as a resource from God to share with others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi50" onclick="tallySGI('5')">Readily provides food/shelter graciously and willingly to people in need</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi51" onclick="tallySGI('5')">Enjoys having guests in the home and sharing freely with those in need</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi52" onclick="tallySGI('5')">Making visitors and guests feel comfortable and a part of things</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi53" onclick="tallySGI('5')">Willingly opens home to guests or strangers even when it is not convenient</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi54" onclick="tallySGI('5')">Sees his/her home as a resource from God to share with others</label></div>
         </td>
-        <td><b id="tally5">0</b> of 5</td>
+        <td><b id="sgitally5">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName6">Intercession</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait60" onclick="tallyGroup('6')">Prays faithfully for the needs of others without prodding</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait61" onclick="tallyGroup('6')">Prays for others when could be doing other things</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait62" onclick="tallyGroup('6')">Feels secure in the knowledge that prayers continually work miracles in own life and the lives of others</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait63" onclick="tallyGroup('6')">Knows that praying for others will bring tangible results</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait64" onclick="tallyGroup('6')">Regards prayer as a favorite spiritual exercise</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi60" onclick="tallySGI('6')">Prays faithfully for the needs of others without prodding</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi61" onclick="tallySGI('6')">Prays for others when could be doing other things</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi62" onclick="tallySGI('6')">Feels secure in the knowledge that prayers continually work miracles in own life and the lives of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi63" onclick="tallySGI('6')">Knows that praying for others will bring tangible results</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi64" onclick="tallySGI('6')">Regards prayer as a favorite spiritual exercise</label></div>
         </td>
-        <td><b id="tally6">0</b> of 5</td>
+        <td><b id="sgitally6">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName7">Knowledge</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait70" onclick="tallyGroup('7')">Frequently discovers new truths</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait71" onclick="tallyGroup('7')">Has the confidence that insights will bring changes in the attitude and convictions of others</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait72" onclick="tallyGroup('7')">Acquires and masters new facts and principles which aid others in their growth and stability</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait73" onclick="tallyGroup('7')">Enjoys reading and studying to learn more about Biblical truth</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait74" onclick="tallyGroup('7')">Distinguishes key Biblical truths and facts that benefit self and others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi70" onclick="tallySGI('7')">Frequently discovers new truths</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi71" onclick="tallySGI('7')">Has the confidence that insights will bring changes in the attitude and convictions of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi72" onclick="tallySGI('7')">Acquires and masters new facts and principles which aid others in their growth and stability</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi73" onclick="tallySGI('7')">Enjoys reading and studying to learn more about Biblical truth</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi74" onclick="tallySGI('7')">Distinguishes key Biblical truths and facts that benefit self and others</label></div>
         </td>
-        <td><b id="tally7">0</b> of 5</td>
+        <td><b id="sgitally7">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName8">Leadership</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait80" onclick="tallyGroup('8')">Enjoys persuading other people to accomplish preset goals and objectives</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait81" onclick="tallyGroup('8')">Shows success in leading other people toward accomplishing specific tasks</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait82" onclick="tallyGroup('8')">Others follow example</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait83" onclick="tallyGroup('8')">Leads small or large groups of people in decision-making processes</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait84" onclick="tallyGroup('8')">Positively motivates others to accomplish a task</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi80" onclick="tallySGI('8')">Enjoys persuading other people to accomplish preset goals and objectives</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi81" onclick="tallySGI('8')">Shows success in leading other people toward accomplishing specific tasks</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi82" onclick="tallySGI('8')">Others follow example</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi83" onclick="tallySGI('8')">Leads small or large groups of people in decision-making processes</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi84" onclick="tallySGI('8')">Positively motivates others to accomplish a task</label></div>
         </td>
-        <td><b id="tally8">0</b> of 5</td>
+        <td><b id="sgitally8">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName9">Mercy</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait90" onclick="tallyGroup('9')">Works joyfully with people who are ignored by the majority of those around them</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait91" onclick="tallyGroup('9')">Talks cheerfully and compassionately with the elderly and shut-ins</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait92" onclick="tallyGroup('9')">Enjoys working with those in jails and prisons</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait93" onclick="tallyGroup('9')">Joyfully works with others who can do little if anything in response</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait94" onclick="tallyGroup('9')">Enjoys doing things to comfort people during sickness or times of trouble</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi90" onclick="tallySGI('9')">Works joyfully with people who are ignored by the majority of those around them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi91" onclick="tallySGI('9')">Talks cheerfully and compassionately with the elderly and shut-ins</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi92" onclick="tallySGI('9')">Enjoys working with those in jails and prisons</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi93" onclick="tallySGI('9')">Joyfully works with others who can do little if anything in response</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi94" onclick="tallySGI('9')">Enjoys doing things to comfort people during sickness or times of trouble</label></div>
         </td>
-        <td><b id="tally9">0</b> of 5</td>
+        <td><b id="sgitally9">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName10">Music</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait100" onclick="tallyGroup('10')">Joyfully sings praises to God either alone or with other people</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait101" onclick="tallyGroup('10')">Gives others pleasure by playing a musical instrument effectively</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait102" onclick="tallyGroup('10')">Finds much pleasure in the routine practice of singing hymns and other Gospel selections</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait103" onclick="tallyGroup('10')">Knows that singing has been a spiritual encouragement to others</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait104" onclick="tallyGroup('10')">Finds pleasure in playing a musical instrument alone or with a group of people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi100" onclick="tallySGI('10')">Joyfully sings praises to God either alone or with other people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi101" onclick="tallySGI('10')">Gives others pleasure by playing a musical instrument effectively</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi102" onclick="tallySGI('10')">Finds much pleasure in the routine practice of singing hymns and other Gospel selections</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi103" onclick="tallySGI('10')">Knows that singing has been a spiritual encouragement to others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi104" onclick="tallySGI('10')">Finds pleasure in playing a musical instrument alone or with a group of people</label></div>
         </td>
-        <td><b id="tally10">0</b> of 5</td>
+        <td><b id="sgitally10">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName11">Serving</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait110" onclick="tallyGroup('11')">Enjoys being called on to do special jobs</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait111" onclick="tallyGroup('11')">Enjoys routine work at church that would seemingly bore other people</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait112" onclick="tallyGroup('11')">Experiences satisfaction in doing menial tasks for the glory of God</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait113" onclick="tallyGroup('11')">Is content to take orders rather than give them</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait114" onclick="tallyGroup('11')">Gladly responds when others express a need for help.</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi110" onclick="tallySGI('11')">Enjoys being called on to do special jobs</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi111" onclick="tallySGI('11')">Enjoys routine work at church that would seemingly bore other people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi112" onclick="tallySGI('11')">Experiences satisfaction in doing menial tasks for the glory of God</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi113" onclick="tallySGI('11')">Is content to take orders rather than give them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi114" onclick="tallySGI('11')">Gladly responds when others express a need for help.</label></div>
         </td>
-        <td><b id="tally11">0</b> of 5</td>
+        <td><b id="sgitally11">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName12">Shepherding</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait120" onclick="tallyGroup('12')">Takes responsibility to care and nurture the whole person in their walk with God</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait121" onclick="tallyGroup('12')">Provides guidance and oversight to a group of God’s people</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait122" onclick="tallyGroup('12')">Models with their life what it means to be a fully devoted follower of Jesus</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait123" onclick="tallyGroup('12')">Establishes trust and confidence through long-term relationships</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait124" onclick="tallyGroup('12')">Leads and protects those within their span of care</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi120" onclick="tallySGI('12')">Takes responsibility to care and nurture the whole person in their walk with God</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi121" onclick="tallySGI('12')">Provides guidance and oversight to a group of God’s people</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi122" onclick="tallySGI('12')">Models with their life what it means to be a fully devoted follower of Jesus</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi123" onclick="tallySGI('12')">Establishes trust and confidence through long-term relationships</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi124" onclick="tallySGI('12')">Leads and protects those within their span of care</label></div>
         </td>
-        <td><b id="tally12">0</b> of 5</td>
+        <td><b id="sgitally12">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName13">Teaching</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait130" onclick="tallyGroup('13')">Enjoys helping other people learn Biblical facts and principles which aid in the building up of their lives</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait131" onclick="tallyGroup('13')">Finds joy in sharing with children or adults knowledge about learning and applying God's word</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait132" onclick="tallyGroup('13')">Sees the faith of others' strengthened by teaching about Christ</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait133" onclick="tallyGroup('13')">Enjoys presenting and discussing Biblical truths with others</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait134" onclick="tallyGroup('13')">Freely and effectively shares the love of Christ with children and/or adults in an effective and meaningful manner</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi130" onclick="tallySGI('13')">Enjoys helping other people learn Biblical facts and principles which aid in the building up of their lives</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi131" onclick="tallySGI('13')">Finds joy in sharing with children or adults knowledge about learning and applying God's word</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi132" onclick="tallySGI('13')">Sees the faith of others' strengthened by teaching about Christ</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi133" onclick="tallySGI('13')">Enjoys presenting and discussing Biblical truths with others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi134" onclick="tallySGI('13')">Freely and effectively shares the love of Christ with children and/or adults in an effective and meaningful manner</label></div>
         </td>
-        <td><b id="tally13">0</b> of 5</td>
+        <td><b id="sgitally13">0</b> of 5</td>
       </tr>
       <tr>
         <td id="giftName14">Writing</td>
         <td>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait140" onclick="tallyGroup('14')">Enjoys formulating thoughts and ideas into effective written form</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait141" onclick="tallyGroup('14')">Feels secure in the fact that words written will be of benefit to those who read them</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait142" onclick="tallyGroup('14')">Composes or arranges articles in an efficient meaningful style</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait143" onclick="tallyGroup('14')">Finds much pleasure in composing and writing paragraphs and stories for the edification of others</label></div>
-          <div class="checkbox"><label><input type="checkbox" value="" id="trait144" onclick="tallyGroup('14')">Feels confident that literary skill will aid others and that they will be built up and informed because of it</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi140" onclick="tallySGI('14')">Enjoys formulating thoughts and ideas into effective written form</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi141" onclick="tallySGI('14')">Feels secure in the fact that words written will be of benefit to those who read them</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi142" onclick="tallySGI('14')">Composes or arranges articles in an efficient meaningful style</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi143" onclick="tallySGI('14')">Finds much pleasure in composing and writing paragraphs and stories for the edification of others</label></div>
+          <div class="checkbox"><label><input type="checkbox" value="" id="sgi144" onclick="tallySGI('14')">Feels confident that literary skill will aid others and that they will be built up and informed because of it</label></div>
         </td>
-        <td><b id="tally14">0</b> of 5</td>
+        <td><b id="sgitally14">0</b> of 5</td>
       </tr>
     </tbody>
   </table>
@@ -607,13 +710,13 @@
     <h2>PERSONAL STYLE ASSESSMENT</h2>
     <p>It is obvious that God does not use a cookie cutter to create people. He makes us all unique and that includes our own personal style. God loves variety and He made introverts and extroverts --- He made people who love routine and
     <p><b>Check the appropriate descriptions.</b></p>
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="table-layout:fixed;">
     <thead>
       <tr>
-        <th>C</th>
-        <th>CL</th>
-        <th>TP</th>
-        <th>A</th>
+        <th><b>C = COACH</b></th>
+        <th><b>CL = CHEERLEADER</b></th>
+        <th><b>TP = TEAM PLAYER</b></th>
+        <th><b>A = ANALYST</b></th>
       </tr>
     </thead>
     <tbody>
@@ -684,11 +787,547 @@
         </td>
       </tr>
       <tr>
-        <td>Total x2 = <b id="psa0">0</b></td>
-        <td>Total x2 = <b id="psa1">0</b></td>
-        <td>Total x2 = <b id="psa2">0</b></td>
-        <td>Total x2 = <b id="psa3">0</b></td>
+        <td>Total = <b id="psatally0">0</b></td>
+        <td>Total = <b id="psatally1">0</b></td>
+        <td>Total = <b id="psatally2">0</b></td>
+        <td>Total = <b id="psatally3">0</b></td>
       </tr>
+      <tr>
+        <td>
+          You will naturally...
+          <ul>
+            <li>Gravitate to positions of leadership</li>
+            <li>Be decisive and quick to make decisions</li>
+            <li>Avoid chit-chat and want to “get to the point”</li>
+            <li>Have the time orientation of “let’s do it now!”</li>
+            <li>Love to overcome obstacles and take on challenges</li>
+            <li>May not see the impact of your words or criticisms on others</li>
+            <li>Says, “Okay team, this is what we need to do!”</li>
+          </ul>
+        </td>
+        <td>
+          You will naturally...
+          <ul>
+            <li>Make life fun!</li>
+            <li>Love to talk to others</li>
+            <li>Easily get excited and encouraged</li>
+            <li>Enjoy groups and high activity level</li>
+            <li>Avoid details, close accountability and deadlines</li>
+            <li>Have the future oriented time frame of “it’ll all work out!”</li>
+            <li>Says, “Go team! We can do it!”</li>
+          </ul>
+        </td>
+        <td>
+          You will naturally...
+          <ul>
+            <li>Want to go deep in your relationships</li>
+            <li>Express tremendous loyalty to those you love</li>
+            <li>Listen attentively (and at length) to another’s problems</li>
+            <li>Be more sensitive to needs of others than other bents</li>
+            <li>Carry emotional and financial stability</li>
+            <li>Prefer stability . . . even if it means peace at all costs.</li>
+            <li>Says, “Remember that we’re a team!”</li>
+          </ul>
+        </td>
+        <td>
+          You will naturally...
+          <ul>
+            <li>Want to do things right and by the book</li>
+            <li>Strive for accuracy and quality, not quickness</li>
+            <li>See a person’s past as a key to trusting them in the future</li>
+            <li>Want clearly defined tasks, limited risk, and an open door environment for asking questions of clarification</li>
+            <li>Be very creative in designing helpful systems, if encouraged and allowed to work at your own pace</li>
+            <li>Be so good at taking things apart, you can also take people apart and become a strong critic when wronged</li>
+            <li>Says, “To be effective this team needs to follow the playbook!”</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <div class="well">
+    <h2>EXPERIENCE ASSESSMENT</h2>
+    <h4>WORK EXPERIENCES</h4>
+    <div class="form-group">
+      <label for="experience">What jobs have you been most effective in and enjoyed the most? List them below</label>
+      <textarea class="form-control" rows="4" id="experience"></textarea>
+
+      <p>LIFE EXPERIENCES</p>
+      <p>From what problems, hurts, pains or trials have you learned that you can in turn help others?</p>
+      <label for="lifeExperiences0">Select up to three:</label>
+      <select class="form-control" id="lifeExperiences0">
+        <option></option>
+        <option>Abortion</option>
+        <option>Abuse</option>
+        <option>Adoption</option>
+        <option>Alcoholism</option>
+        <option>Alzheimer’s/Dementia</option>
+        <option>Annulment of Marriage</option>
+        <option>Bankruptcy</option>
+        <option>Cancer</option>
+        <option>Chronic Pain</option>
+        <option>Crisis Pregnancy</option>
+        <option>Death/Grief</option>
+        <option>Depression</option>
+        <option>Dysfunctional Family</option>
+        <option>Divorce</option>
+        <option>Drug Abuse/Addiction</option>
+        <option>Eating Disorder</option>
+        <option>Extended Court Proceedings</option>
+        <option>Extended Job Loss</option>
+        <option>Extended Physical Illness/Injury</option>
+        <option>Handicapped/Disabled</option>
+        <option>Homeless</option>
+        <option>Military Wartime Service</option>
+        <option>Miscarriage</option>
+        <option>Orphaned</option>
+        <option>Prison</option>
+        <option>Recovery Program</option>
+        <option>Remarried</option>
+        <option>Separated and/or Restored Marriage</option>
+        <option>Suicide</option>
+        <option>Widowed</option>
+      </select>
+      <select class="form-control" id="lifeExperiences1">
+        <option></option>
+        <option>Abortion</option>
+        <option>Abuse</option>
+        <option>Adoption</option>
+        <option>Alcoholism</option>
+        <option>Alzheimer’s/Dementia</option>
+        <option>Annulment of Marriage</option>
+        <option>Bankruptcy</option>
+        <option>Cancer</option>
+        <option>Chronic Pain</option>
+        <option>Crisis Pregnancy</option>
+        <option>Death/Grief</option>
+        <option>Depression</option>
+        <option>Dysfunctional Family</option>
+        <option>Divorce</option>
+        <option>Drug Abuse/Addiction</option>
+        <option>Eating Disorder</option>
+        <option>Extended Court Proceedings</option>
+        <option>Extended Job Loss</option>
+        <option>Extended Physical Illness/Injury</option>
+        <option>Handicapped/Disabled</option>
+        <option>Homeless</option>
+        <option>Military Wartime Service</option>
+        <option>Miscarriage</option>
+        <option>Orphaned</option>
+        <option>Prison</option>
+        <option>Recovery Program</option>
+        <option>Remarried</option>
+        <option>Separated and/or Restored Marriage</option>
+        <option>Suicide</option>
+        <option>Widowed</option>
+      </select>
+      <select class="form-control" id="lifeExperiences2">
+        <option></option>
+        <option>Abortion</option>
+        <option>Abuse</option>
+        <option>Adoption</option>
+        <option>Alcoholism</option>
+        <option>Alzheimer’s/Dementia</option>
+        <option>Annulment of Marriage</option>
+        <option>Bankruptcy</option>
+        <option>Cancer</option>
+        <option>Chronic Pain</option>
+        <option>Crisis Pregnancy</option>
+        <option>Death/Grief</option>
+        <option>Depression</option>
+        <option>Dysfunctional Family</option>
+        <option>Divorce</option>
+        <option>Drug Abuse/Addiction</option>
+        <option>Eating Disorder</option>
+        <option>Extended Court Proceedings</option>
+        <option>Extended Job Loss</option>
+        <option>Extended Physical Illness/Injury</option>
+        <option>Handicapped/Disabled</option>
+        <option>Homeless</option>
+        <option>Military Wartime Service</option>
+        <option>Miscarriage</option>
+        <option>Orphaned</option>
+        <option>Prison</option>
+        <option>Recovery Program</option>
+        <option>Remarried</option>
+        <option>Separated and/or Restored Marriage</option>
+        <option>Suicide</option>
+        <option>Widowed</option>
+      </select>
+
+      <p>MINISTRY EXPERIENCES</p>
+      <p>Where have you enjoyed serving in the past? Check all that apply to you.</p>
+      <label for="ministryExperiences0">Select up to three:</label>
+      <select class="form-control" id="ministryExperiences0">
+        <option></option>
+        <option>Usher/Greeter</option>
+        <option>Teacher (Adults)</option>
+        <option>Teacher/Helper (Youth)</option>
+        <option>Teacher/Helper (Children)</option>
+        <option>Teacher Training Ministry</option>
+        <option>Host</option>
+        <option>Kitchen</option>
+        <option>Music (Instrument)</option>
+        <option>Music (Vocal)</option>
+        <option>Mission Trip</option>
+        <option>Urban Missions</option>
+        <option>Tutoring</option>
+        <option>Deacon</option>
+        <option>Elder</option>
+        <option>Drama</option>
+        <option>Small Group Leader</option>
+        <option>Mentor</option>
+        <option>Financial Counselor</option>
+        <option>Coach (Baseball)</option>
+        <option>Coach (Basketball)</option>
+        <option>Coach (Soccer)</option>
+        <option>Calling Team</option>
+        <option>Meals Ministry</option>
+        <option>Counseling</option>
+        <option>Clothing Closet</option>
+        <option>Bus/Van Driver</option>
+        <option>Video</option>
+        <option>Sound Board</option>
+        <option>Library</option>
+        <option>Hospital Care</option>
+        <option>Coffee</option>
+        <option>Prayer Team</option>
+        <option>Prison Ministry</option>
+        <option>Program/Event Coordinator</option>
+        <option>Retreat Planning</option>
+        <option>Parking Cars</option>
+        <option>Set up/ Tear down</option>
+        <option>Speaker/Trainer</option>
+        <option>Writing</option>
+        <option>Tape/CD Ministry</option>
+        <option>Cleaning Crew</option>
+        <option>Office Work</option>
+        <option>ESL Ministry</option>
+        <option>Home Construction Ministry</option>
+        <option>Recovery Ministry</option>
+        <option>Special Needs Children</option>
+      </select>
+      <select class="form-control" id="ministryExperiences1">
+        <option></option>
+        <option>Usher/Greeter</option>
+        <option>Teacher (Adults)</option>
+        <option>Teacher/Helper (Youth)</option>
+        <option>Teacher/Helper (Children)</option>
+        <option>Teacher Training Ministry</option>
+        <option>Host</option>
+        <option>Kitchen</option>
+        <option>Music (Instrument)</option>
+        <option>Music (Vocal)</option>
+        <option>Mission Trip</option>
+        <option>Urban Missions</option>
+        <option>Tutoring</option>
+        <option>Deacon</option>
+        <option>Elder</option>
+        <option>Drama</option>
+        <option>Small Group Leader</option>
+        <option>Mentor</option>
+        <option>Financial Counselor</option>
+        <option>Coach (Baseball)</option>
+        <option>Coach (Basketball)</option>
+        <option>Coach (Soccer)</option>
+        <option>Calling Team</option>
+        <option>Meals Ministry</option>
+        <option>Counseling</option>
+        <option>Clothing Closet</option>
+        <option>Bus/Van Driver</option>
+        <option>Video</option>
+        <option>Sound Board</option>
+        <option>Library</option>
+        <option>Hospital Care</option>
+        <option>Coffee</option>
+        <option>Prayer Team</option>
+        <option>Prison Ministry</option>
+        <option>Program/Event Coordinator</option>
+        <option>Retreat Planning</option>
+        <option>Parking Cars</option>
+        <option>Set up/ Tear down</option>
+        <option>Speaker/Trainer</option>
+        <option>Writing</option>
+        <option>Tape/CD Ministry</option>
+        <option>Cleaning Crew</option>
+        <option>Office Work</option>
+        <option>ESL Ministry</option>
+        <option>Home Construction Ministry</option>
+        <option>Recovery Ministry</option>
+        <option>Special Needs Children</option>
+      </select>
+      <select class="form-control" id="ministryExperiences2">
+        <option></option>
+        <option>Usher/Greeter</option>
+        <option>Teacher (Adults)</option>
+        <option>Teacher/Helper (Youth)</option>
+        <option>Teacher/Helper (Children)</option>
+        <option>Teacher Training Ministry</option>
+        <option>Host</option>
+        <option>Kitchen</option>
+        <option>Music (Instrument)</option>
+        <option>Music (Vocal)</option>
+        <option>Mission Trip</option>
+        <option>Urban Missions</option>
+        <option>Tutoring</option>
+        <option>Deacon</option>
+        <option>Elder</option>
+        <option>Drama</option>
+        <option>Small Group Leader</option>
+        <option>Mentor</option>
+        <option>Financial Counselor</option>
+        <option>Coach (Baseball)</option>
+        <option>Coach (Basketball)</option>
+        <option>Coach (Soccer)</option>
+        <option>Calling Team</option>
+        <option>Meals Ministry</option>
+        <option>Counseling</option>
+        <option>Clothing Closet</option>
+        <option>Bus/Van Driver</option>
+        <option>Video</option>
+        <option>Sound Board</option>
+        <option>Library</option>
+        <option>Hospital Care</option>
+        <option>Coffee</option>
+        <option>Prayer Team</option>
+        <option>Prison Ministry</option>
+        <option>Program/Event Coordinator</option>
+        <option>Retreat Planning</option>
+        <option>Parking Cars</option>
+        <option>Set up/ Tear down</option>
+        <option>Speaker/Trainer</option>
+        <option>Writing</option>
+        <option>Tape/CD Ministry</option>
+        <option>Cleaning Crew</option>
+        <option>Office Work</option>
+        <option>ESL Ministry</option>
+        <option>Home Construction Ministry</option>
+        <option>Recovery Ministry</option>
+        <option>Special Needs Children</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Contact info template from https://codepen.io/jaycbrf/pen/iBszr -->
+  <div class="container">
+  <fieldset>
+  <legend>YOUR S.H.A.P.E. PROFILE</legend>
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">First Name</label>
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+    <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Last Name</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+    <input name="last_name" placeholder="Last Name" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Text input-->
+         <div class="form-group">
+    <label class="col-md-4 control-label">E-Mail</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+    <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">Phone #</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+    <input name="phone" placeholder="(845)555-1212" class="form-control" type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">Address</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+    <input name="address" placeholder="Address" class="form-control" type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">City</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+    <input name="city" placeholder="city" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Select Basic -->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">State</label>
+      <div class="col-md-4 selectContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+      <select name="state" class="form-control selectpicker" >
+        <option value=" " >Please select your state</option>
+        <option>Alabama</option>
+        <option>Alaska</option>
+        <option>Arizona</option>
+        <option>Arkansas</option>
+        <option>California</option>
+        <option>Colorado</option>
+        <option>Connecticut</option>
+        <option>Delaware</option>
+        <option>District of Columbia</option>
+        <option>Florida</option>
+        <option>Georgia</option>
+        <option>Hawaii</option>
+        <option>Idaho</option>
+        <option>Illinois</option>
+        <option>Indiana</option>
+        <option>Iowa</option>
+        <option>Kansas</option>
+        <option>Kentucky</option>
+        <option>Louisiana</option>
+        <option>Maine</option>
+        <option>Maryland</option>
+        <option>Mass</option>
+        <option>Michigan</option>
+        <option>Minnesota</option>
+        <option>Mississippi</option>
+        <option>Missouri</option>
+        <option>Montana</option>
+        <option>Nebraska</option>
+        <option>Nevada</option>
+        <option>New Hampshire</option>
+        <option>New Jersey</option>
+        <option>New Mexico</option>
+        <option>New York</option>
+        <option>North Carolina</option>
+        <option>North Dakota</option>
+        <option>Ohio</option>
+        <option>Oklahoma</option>
+        <option>Oregon</option>
+        <option>Pennsylvania</option>
+        <option>Rhode Island</option>
+        <option>South Carolina</option>
+        <option>South Dakota</option>
+        <option>Tennessee</option>
+        <option>Texas</option>
+        <option>Utah</option>
+        <option>Vermont</option>
+        <option>Virginia</option>
+        <option>Washington</option>
+        <option>West Virginia</option>
+        <option>Wisconsin</option>
+        <option>Wyoming</option>
+      </select>
+    </div>
+  </div>
+  </div>
+
+  <!-- Text input-->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">Zip Code</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+    <input name="zip" placeholder="Zip Code" class="form-control"  type="text">
+      </div>
+  </div>
+  </div>
+
+  <!-- Text input-->
+  <div class="form-group">
+    <label class="col-md-4 control-label">Date of Birth</label>
+     <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    <input name="dob"  class="form-control" type="date">
+      </div>
+    </div>
+  </div>
+
+  <!-- radio checks -->
+   <div class="form-group">
+      <label class="col-md-4 control-label">How would you describe where you are in your spritual journey with Christ right now?</label>
+      <div class="col-md-4">
+        <div class="radio">
+          <label>
+              <input type="radio" name="journey" value="seeker" /> <b>Seeker:</b> Seeking information about and exposure to Seeker: Christianity and Christians, have not yet committed life to Christ.
+          </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="journey" value="newBeliever" /> <b>New Believer:</b> Brand new to faith and the Bible.
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="journey" value="growingBeliever" /> <b>Growing Believer:</b> Established in the basics of Bib Growing Believer: le study, personal devotions, etc.
+              </label>
+          </div>
+          <div class="radio">
+              <label>
+                  <input type="radio" name="journey" value="leadingBeliever" /> <b>Leading Believer:</b> Vibrant relationship with Christ, established in the basics, ready to lead others toward a deeper relationship with Christ.
+              </label>
+          </div>
+      </div>
+  </div>
+
+  <!-- Text area -->
+
+  <div class="form-group">
+    <label class="col-md-4 control-label">If you currently serve at ACC, where do you serve?</label>
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+          	<textarea class="form-control" name="serve"></textarea>
+    </div>
+    </div>
+  </div>
+
+  <!-- Success message -->
+  <div class="alert alert-success" role="alert" id="success_message"  style="display: none;">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+
+  <!-- Button -->
+  <div class="form-group">
+    <label class="col-md-4 control-label"></label>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+    </div>
+  </div>
+
+  </fieldset>
+  </div>
+  </div><!-- /.container -->
+
   </form>
   </div>
 </body>
